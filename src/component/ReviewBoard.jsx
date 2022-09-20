@@ -1,7 +1,7 @@
 // MUI
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
-const Board = ({tableData}) => {
+const ReviewBoard = ({tableData}) => {
     return (
         <TableContainer component={Paper}>
             <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -29,4 +29,4 @@ const Board = ({tableData}) => {
     )
 }
 
-export default Board;
+export default ReviewBoard;
