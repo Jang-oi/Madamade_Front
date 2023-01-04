@@ -23,3 +23,33 @@ export function customAlert(options) {
     return MySwal.fire(options);
 }
 
+/**
+ * 리뷰를 위해 사용하는 url 검증
+ * @param url
+ * @returns {boolean}
+ */
+export function isUrlValidate(url) {
+    let bool = true;
+
+    if (url.toLowerCase().includes('smartstore.naver.com')) bool = false;
+    if (url.toLowerCase().includes('brand.naver.com')) bool = false;
+
+    return bool;
+}
+
+/**
+ * 오브젝트의 키 값이 존재하더라도 value 값이 0, null, '', undefined 일 경우
+ * 비어 있다고 판단하는 함수
+ * @param Obj
+ * @returns {boolean}
+ */
+export const isEmptyObj = (Obj) => {
+    let bool = true;
+    for (const key in Obj) {
+        if (Obj[key]) {
+            bool = false;
+            break;
+        }
+    }
+    return bool;
+};

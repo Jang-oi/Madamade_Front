@@ -2,7 +2,7 @@ import {Fragment, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
-import {customAlert} from "../utils/commonUtil";
+import {customAlert, isUrlValidate} from "../utils/commonUtil";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import ReviewBoard from "./ReviewBoard";
 
@@ -18,7 +18,7 @@ const Review = () => {
      * @param e
      */
     const onSubmitHandler = (e) => {
-        if (isUrlValidate()) {
+        if (isUrlValidate(url)) {
             customAlert({
                 icon : 'error',
                 title: 'Oops...',
@@ -52,14 +52,6 @@ const Review = () => {
      */
     const onUrlHandler = (e) => {
         setUrl(e.currentTarget.value);
-    }
-
-    /**
-     * URL 검증 이벤트
-     * @returns {boolean}
-     */
-    const isUrlValidate = () => {
-        return !url.toLowerCase().includes('smartstore.naver.com');
     }
 
     return (
