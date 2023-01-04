@@ -8,7 +8,7 @@ import DateBoard from "./DateBoard";
 export default function Date() {
 
     const [url, setUrl] = useState('');
-    const [productObj, setProductObj] = useState({});
+    const [fetchProductObj, setFetchProductObj] = useState({});
     const urlInputRef = useRef(null);
     const navigate = useNavigate();
     /**
@@ -29,7 +29,7 @@ export default function Date() {
         } else {
             axios.post('/getProductDate', {url: url})
                 .then(response => {
-                    setProductObj(response.data);
+                    setFetchProductObj(response.data);
                 })
                 .catch(() => {
                     customAlert({
@@ -71,7 +71,7 @@ export default function Date() {
                            onChange={onUrlHandler}/>
                 <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}} disabled={!url}>확인</Button>
             </Box>
-            <DateBoard productObj={productObj}/>
+            <DateBoard fetchProductObj={fetchProductObj}/>
         </Fragment>
     );
 }

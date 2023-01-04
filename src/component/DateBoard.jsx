@@ -1,23 +1,52 @@
 // MUI
 import {
     Card, CardContent,
-    CardMedia, Divider,
+    CardMedia, Divider, ImageList, ImageListItem,
     Typography
 } from "@mui/material";
 import {isEmptyObj} from "../utils/commonUtil";
-import {Fragment} from "react";
+import {Fragment, useEffect, useState} from "react";
 
-const DateBoard = ({productObj}) => {
+const DateBoard = ({fetchProductObj}) => {
+
+    const [thumbnailImage, setThumbnailImage] = useState('');
+    const [productObj, setProductObj] = useState({});
+    useEffect(() => {
+        setProductObj(fetchProductObj);
+        setThumbnailImage(fetchProductObj.thumbnail);
+    }, [fetchProductObj]);
 
     if (isEmptyObj(productObj)) return;
-    const {productId, regDate, thumbnail, delivery} = productObj;
+    const {productId, regDate, images, delivery} = productObj;
     const {averageReviewScore, totalReviewCount} = productObj.reviewAmount;
     const {cumulationSaleCount, recentSaleCount} = productObj.saleAmount;
 
+    const onImageMouserOverHandler = (event) => {
+        setThumbnailImage(event.currentTarget.src);
+    }
+
     return (
         <Card sx={{maxWidth: 600, margin: 'auto', textAlign: 'center'}}>
-            <CardMedia id={`cardImage_${productId}`} component="img" image={thumbnail}/>
-            <CardContent>
+            <CardMedia id={`card_main_Image_${productId}`} component="img" image={thumbnailImage}/>
+            <ImageList
+                sx={{ width: 500, marginLeft : 5, marginRight: 5}}
+                variant="quilted"
+                cols={6}
+                rowHeight={100}
+                key={1}
+            >
+                {images.map((item) => (
+                    <ImageListItem key={item.url}>
+                        <img src={item.url}
+                            alt={item.title}
+                            loading="lazy"
+                             key={item.url}
+                             onMouseOver={onImageMouserOverHandler}
+                        />
+                    </ImageListItem>
+                ))}
+            </ImageList>
+            <CardContent sx={{marginTop: 5}}>
                 <Typography gutterBottom variant="h7" component="div">
                     등록일자 : {regDate}
                 </Typography>
@@ -35,8 +64,8 @@ const DateBoard = ({productObj}) => {
                 </Typography>
                 <Divider>배송 기간</Divider>
                 <Fragment>
-                    {delivery.map(({leadTimeCount, leadTimePercent, rangeNumberText, rangeText}) => (
-                        <Typography gutterBottom variant="h7" component="div">
+                    {delivery.map(({leadTimeCount, leadTimePercent, rangeNumberText, rangeText}, index) => (
+                        <Typography gutterBottom variant="h7" component="div" key={index}>
                             {`${rangeNumberText}${rangeText} ${leadTimeCount}건 (${leadTimePercent}%)`}
                         </Typography>
                     ))}
