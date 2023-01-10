@@ -1,11 +1,11 @@
-// MUI
+import {Fragment, useEffect, useState} from "react";
 import {
     Card, CardContent,
     CardMedia, Divider, ImageList, ImageListItem,
     Typography
 } from "@mui/material";
+
 import {isEmptyObj} from "../utils/commonUtil";
-import {Fragment, useEffect, useState} from "react";
 
 const DateBoard = ({fetchProductObj}) => {
 
@@ -29,7 +29,7 @@ const DateBoard = ({fetchProductObj}) => {
         <Card sx={{maxWidth: 600, margin: 'auto', textAlign: 'center'}}>
             <CardMedia id={`card_main_Image_${productId}`} component="img" image={thumbnailImage}/>
             <ImageList
-                sx={{ width: 500, marginLeft : 5, marginRight: 5}}
+                sx={{width: 500, marginLeft: 5, marginRight: 5}}
                 variant="quilted"
                 cols={6}
                 rowHeight={100}
@@ -38,8 +38,8 @@ const DateBoard = ({fetchProductObj}) => {
                 {images.map((item) => (
                     <ImageListItem key={item.url}>
                         <img src={item.url}
-                            alt={item.title}
-                            loading="lazy"
+                             alt={item.title}
+                             loading="lazy"
                              key={item.url}
                              onMouseOver={onImageMouserOverHandler}
                         />

@@ -1,7 +1,7 @@
 import {Fragment, useRef, useState} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
-import axios from "axios";
 import KeywordBoard from "./KeywordBoard";
+import {serviceCall} from "../utils/callUtil";
 
 const Keyword = () => {
 
@@ -14,11 +14,10 @@ const Keyword = () => {
      * @param e
      */
     const onSubmitHandler = (e) => {
-        axios.get(`/keywordstool?searchkeyword=${product}`)
-            .then((response) => {
-                setTableData(response.data);
-            });
         e.preventDefault();
+        serviceCall.get(`/keywordstool?searchkeyword=${product}`, (returnData) => {
+            setTableData(returnData);
+        });
     }
 
     /**

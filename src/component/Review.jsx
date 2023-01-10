@@ -1,10 +1,9 @@
 import {Fragment, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
-
-import {customAlert, isUrlValidate} from "../utils/commonUtil";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import ReviewBoard from "./ReviewBoard";
+import {serviceCall} from "../utils/callUtil";
+import {urlValidate} from "../utils/commonUtil";
 
 const Review = () => {
 
@@ -17,33 +16,18 @@ const Review = () => {
      * 확인버튼 클릭 시 이벤트
      * @param e
      */
-    const onSubmitHandler = (e) => {
-        if (isUrlValidate(url)) {
-            customAlert({
-                icon : 'error',
-                title: 'Oops...',
-                text : '입력하신 URL 확인 부탁드립니다.'
-            }).then(() => {
-                setTimeout(() => {
-                    urlInputRef.current.focus();
-                }, 300);
-            });
-        } else {
-            axios.post('/getReview', {url: url})
-                .then(response => {
-                    setTableData(response.data);
-                })
-                .catch(() => {
-                    customAlert({
-                        icon : 'error',
-                        title: 'Oops...',
-                        text : '다시 시도 부탁드립니다.'
-                    }).then(() => {
-                        navigate('/review');
-                    });
-                });
-        }
+    const onSubmitHandler = async (e) => {
         e.preventDefault();
+        try {
+            await urlValidate(url, urlInputRef);
+            serviceCall.post('/getReview', {url: url}, (returnData) => {
+                setTableData(returnData);
+            }, () => {
+                navigate('/review');
+            });
+        } catch (e) {
+            alert(e);
+        }
     }
 
     /**

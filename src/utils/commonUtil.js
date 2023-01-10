@@ -1,40 +1,18 @@
-import Swal from 'sweetalert2/src/sweetalert2.js'
-import withReactContent from 'sweetalert2-react-content';
-
-/**
- * options 정의
- title : String
- text  : String
- footer : String
- icon : String
- didOpen : function
- didClose : function
- showCancelButton: true,
- confirmButtonColor: '#color',
- cancelButtonColor: '#color',
- confirmButtonText: String,
- cancelButtonText: String
- * Alert 창 정의
- * @param options
- * @returns {Promise<SweetAlertResult>}
- */
-export function customAlert(options) {
-    const MySwal = withReactContent(Swal);
-    return MySwal.fire(options);
-}
-
 /**
  * 리뷰를 위해 사용하는 url 검증
  * @param url
- * @returns {boolean}
+ * @param urlInputRef
  */
-export function isUrlValidate(url) {
+export async function urlValidate(url, urlInputRef) {
     let bool = true;
 
     if (url.toLowerCase().includes('smartstore.naver.com')) bool = false;
     if (url.toLowerCase().includes('brand.naver.com')) bool = false;
 
-    return bool;
+    if (bool) {
+        setTimeout(() => {urlInputRef.current.focus()}, 300);
+        throw new Error('입력하신 URL 확인 부탁드립니다.');
+    }
 }
 
 /**
@@ -43,7 +21,7 @@ export function isUrlValidate(url) {
  * @param Obj
  * @returns {boolean}
  */
-export const isEmptyObj = (Obj) => {
+export function isEmptyObj(Obj) {
     let bool = true;
     for (const key in Obj) {
         if (Obj[key]) {
@@ -52,4 +30,4 @@ export const isEmptyObj = (Obj) => {
         }
     }
     return bool;
-};
+}
