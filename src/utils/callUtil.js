@@ -10,7 +10,7 @@ export const tryCatchCall = (fn, errCallBack) => {
         customAlert({
             icon : 'error',
             title: 'Oops...',
-            text : error,
+            text : error.message,
         }).then(() => {
             if (errCallBack) errCallBack();
         }).catch(() => {
@@ -37,7 +37,7 @@ const callThen = (response, callBack) => {
  * @param errorCallBack
  */
 const callCatch = (error, errorCallBack) => {
-    let errorMsg = '';
+    let errorMsg;
     switch (error.code) {
         case 'ERR_NETWORK' :
             errorMsg = '서버 연결 실패!! \n서버 담당자 연결 부탁드립니다.'

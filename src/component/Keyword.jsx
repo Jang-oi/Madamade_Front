@@ -10,18 +10,25 @@ const Keyword = () => {
     const urlInputRef = useRef(null);
     const [tableData, setTableData] = useState([]);
 
+    const errorCallBack = () => {
+        setTimeout(() => {
+            urlInputRef.current.focus();
+        }, 300);
+    }
+
     /**
      * 확인버튼 클릭 시 이벤트
      * @param e
      */
     const onSubmitHandler = (e) => {
         e.preventDefault();
+
         tryCatchCall(() => {
-            urlValidate(url, urlInputRef);
-            serviceCall.post('/getKeyWord', {url: url}, (returnData) => {
+            urlValidate(url);
+            serviceCall.post('/getKeyword', {url: url}, (returnData) => {
                 setTableData(returnData);
             });
-        })
+        }, errorCallBack);
     }
 
     /**

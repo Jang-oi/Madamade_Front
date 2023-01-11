@@ -10,6 +10,7 @@ const ReviewBoard = ({tableData}) => {
                         <TableCell>순위</TableCell>
                         <TableCell>옵션명</TableCell>
                         <TableCell>리뷰 개수</TableCell>
+                        <TableCell>리뷰 점수</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -21,6 +22,7 @@ const ReviewBoard = ({tableData}) => {
                             <TableCell>{index+1}</TableCell>
                             <TableCell>{data.productOptionContent}</TableCell>
                             <TableCell>{data.cnt}</TableCell>
+                            <TableCell>{(data.reviewScore / data.cnt).toFixed(2)}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

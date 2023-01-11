@@ -26,23 +26,14 @@ export const customAlert = (options) => {
 /**
  * 리뷰를 위해 사용하는 url 검증
  * @param url
- * @param urlInputRef
  */
-export const urlValidate = (url, urlInputRef) => {
+export const urlValidate = (url) => {
     let bool = true;
 
-    //TODO 로직 변경해 smartstore.naver.com 일 때 안뚫려야됨.
-    if (url.toLowerCase().includes('smartstore.naver.com')) bool = false;
-    if (url.toLowerCase().includes('brand.naver.com')) bool = false;
-    if (/^(http(s)?:\/\/)([^\/]*)(\.)(com|net|kr|my|shop)(\/)/gi.test(url)) bool = false;
+    if (url.toLowerCase().includes('https://smartstore.naver.com')) bool = false;
+    if (url.toLowerCase().includes('https://brand.naver.com')) bool = false;
 
-    if (bool) {
-        // TODO 포커스 정상적으로 안됨 확인.
-        setTimeout(() => {
-            urlInputRef.current.focus()
-        }, 300);
-        throw new Error('입력하신 URL 확인 부탁드립니다.');
-    }
+    if (bool) throw new Error('입력하신 URL 확인 부탁드립니다.');
 }
 
 /**

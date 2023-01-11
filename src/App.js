@@ -48,8 +48,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<Main/>}/>
                 <Route path="/keyword" element={<Keyword/>}/>
-                <Route path="/review" element={<Review/>}/>
                 <Route path="/date" element={<Date/>}/>
+                <Route path="/review" element={<Review/>}/>
             </Routes>
         </Container>
     );

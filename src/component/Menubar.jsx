@@ -20,8 +20,8 @@ const Menubar = () => {
                 <Button value={'/'} onClick={movePage}>Mada Made</Button>
                 <Typography component="h2" variant="h5" color="inherit" align="center" noWrap sx={{flex: 1}}/>
                 <Button value={'/keyword'} onClick={movePage}>KEYWORD</Button>
+                <Button value={'/date'} onClick={movePage}>DATE</Button>
                 <Button value={'/review'} onClick={movePage}>REVIEW</Button>
-                <Button value={'/date'} onClick={movePage}>Date</Button>
             </Toolbar>
         </Fragment>
     )

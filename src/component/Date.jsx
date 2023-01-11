@@ -1,5 +1,4 @@
 import {Fragment, useRef, useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import DateBoard from "./DateBoard";
 import {serviceCall, tryCatchCall} from "../utils/callUtil";
@@ -10,22 +9,25 @@ const Date = () => {
     const [url, setUrl] = useState('');
     const [fetchProductObj, setFetchProductObj] = useState({});
     const urlInputRef = useRef(null);
-    const navigate = useNavigate();
 
+    const errorCallBack = () => {
+        setTimeout(() => {
+            urlInputRef.current.focus();
+        }, 300);
+    }
     /**
      * 확인버튼 클릭 시 이벤트
      * @param e
      */
     const onSubmitHandler = (e) => {
         e.preventDefault();
+
         tryCatchCall(() => {
             urlValidate(url, urlInputRef);
             serviceCall.post('/getProductDate', {url: url}, (returnData) => {
                 setFetchProductObj(returnData);
-            }, () => {
-                navigate('/date');
             });
-        });
+        }, errorCallBack)
     }
 
     /**
