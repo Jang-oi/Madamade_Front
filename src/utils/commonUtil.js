@@ -31,10 +31,13 @@ export const customAlert = (options) => {
 export const urlValidate = (url, urlInputRef) => {
     let bool = true;
 
+    //TODO 로직 변경해 smartstore.naver.com 일 때 안뚫려야됨.
     if (url.toLowerCase().includes('smartstore.naver.com')) bool = false;
     if (url.toLowerCase().includes('brand.naver.com')) bool = false;
+    if (/^(http(s)?:\/\/)([^\/]*)(\.)(com|net|kr|my|shop)(\/)/gi.test(url)) bool = false;
 
     if (bool) {
+        // TODO 포커스 정상적으로 안됨 확인.
         setTimeout(() => {
             urlInputRef.current.focus()
         }, 300);
