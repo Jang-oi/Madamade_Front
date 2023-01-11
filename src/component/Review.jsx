@@ -2,7 +2,7 @@ import {Fragment, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import ReviewBoard from "./ReviewBoard";
-import {serviceCall} from "../utils/callUtil";
+import {serviceCall, tryCatchCall} from "../utils/callUtil";
 import {urlValidate} from "../utils/commonUtil";
 
 const Review = () => {
@@ -16,18 +16,16 @@ const Review = () => {
      * 확인버튼 클릭 시 이벤트
      * @param e
      */
-    const onSubmitHandler = async (e) => {
+    const onSubmitHandler = (e) => {
         e.preventDefault();
-        try {
-            await urlValidate(url, urlInputRef);
+        tryCatchCall(() => {
+            urlValidate(url, urlInputRef);
             serviceCall.post('/getReview', {url: url}, (returnData) => {
                 setTableData(returnData);
             }, () => {
                 navigate('/review');
             });
-        } catch (e) {
-            alert(e);
-        }
+        });
     }
 
     /**

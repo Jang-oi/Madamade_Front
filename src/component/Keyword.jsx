@@ -1,7 +1,8 @@
 import {Fragment, useRef, useState} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
 import KeywordBoard from "./KeywordBoard";
-import {serviceCall} from "../utils/callUtil";
+import {serviceCall, tryCatchCall} from "../utils/callUtil";
+import {urlValidate} from "../utils/commonUtil";
 
 const Keyword = () => {
 
@@ -15,9 +16,13 @@ const Keyword = () => {
      */
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        serviceCall.get(`/keywordstool?searchkeyword=${product}`, (returnData) => {
-            setTableData(returnData);
-        });
+        tryCatchCall(() => {
+            // urlValidate(url, urlInputRef);
+            // serviceCall.get(`/keywordstool?searchkeyword=${product}`, (returnData) => {
+            //     setTableData(returnData);
+            // });
+        })
+
     }
 
     /**

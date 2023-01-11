@@ -1,5 +1,23 @@
 import axios from "axios";
+import {customAlert} from "./commonUtil";
+
 axios.defaults.baseURL = `http://${window.location.hostname}:3000/mada`;
+
+export const tryCatchCall = (fn, errCallBack) => {
+    try {
+        fn();
+    } catch (error) {
+        customAlert({
+            icon : 'error',
+            title: 'Oops...',
+            text : error,
+        }).then(() => {
+            if (errCallBack) errCallBack();
+        }).catch(() => {
+            alert('customAlert 연결 실패!\n서버 담당자에게 연결 부탁드립니다.');
+        });
+    }
+}
 
 /**
  * 서버를 정상적으로 호출하고 난 이후의 이벤트
@@ -22,14 +40,21 @@ const callCatch = (error, errorCallBack) => {
     let errorMsg = '';
     switch (error.code) {
         case 'ERR_NETWORK' :
-            errorMsg = '서버가 정상적이지 않습니다.\n서버 담당자 연결 부탁드립니다.'
+            errorMsg = '서버 연결 실패!! \n서버 담당자 연결 부탁드립니다.'
             break;
         default :
             errorMsg = '서버 담당자 연결 부탁드립니다.'
             break;
     }
-    alert(errorMsg);
-    if(errorCallBack) errorCallBack();
+    customAlert({
+        icon : 'error',
+        title: 'Oops...',
+        text : errorMsg,
+    }).then(() => {
+        if (errorCallBack) errorCallBack();
+    }).catch(() => {
+        alert('customAlert 연결 실패!!\n서버 담당자에게 연결 부탁드립니다.')
+    });
 }
 
 
