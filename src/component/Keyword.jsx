@@ -6,8 +6,8 @@ import {urlValidate} from "../utils/commonUtil";
 
 const Keyword = () => {
 
-    const [product, setProduct] = useState('');
-    const prdInputRef = useRef(null);
+    const [url, setUrl] = useState('');
+    const urlInputRef = useRef(null);
     const [tableData, setTableData] = useState([]);
 
     /**
@@ -17,20 +17,19 @@ const Keyword = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
         tryCatchCall(() => {
-            // urlValidate(url, urlInputRef);
-            // serviceCall.get(`/keywordstool?searchkeyword=${product}`, (returnData) => {
-            //     setTableData(returnData);
-            // });
+            urlValidate(url, urlInputRef);
+            serviceCall.post('/getKeyWord', {url: url}, (returnData) => {
+                setTableData(returnData);
+            });
         })
-
     }
 
     /**
-     * 상품명 입력 시 이벤트
+     * URL 입력 시 이벤트
      * @param e
      */
-    const onPrdHandler = (e) => {
-        setProduct(e.currentTarget.value);
+    const onUrlHandler = (e) => {
+        setUrl(e.currentTarget.value);
     }
 
     return (
@@ -47,10 +46,10 @@ const Keyword = () => {
                     alignItems   : 'center',
                 }}
             >
-                <TextField variant="standard" autoFocus fullWidth label="제품명을 입력해주세요." value={product}
-                           inputRef={prdInputRef}
-                           onChange={onPrdHandler}/>
-                <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}} disabled={!product}>확인</Button>
+                <TextField variant="standard" autoFocus fullWidth label="URL을 입력해주세요." value={url}
+                           inputRef={urlInputRef}
+                           onChange={onUrlHandler}/>
+                <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}} disabled={!url}>확인</Button>
             </Box>
             <KeywordBoard tableData={tableData}/>
         </Fragment>
