@@ -5,7 +5,7 @@ import {
     Typography
 } from "@mui/material";
 
-import {isEmptyObj} from "../utils/commonUtil";
+import {isEmptyObj, setLocaleString} from "../utils/commonUtil";
 
 const DateBoard = ({fetchProductObj}) => {
 
@@ -17,6 +17,10 @@ const DateBoard = ({fetchProductObj}) => {
     }, [fetchProductObj]);
 
     if (isEmptyObj(productObj)) return;
+
+    setLocaleString(productObj.reviewAmount);
+    setLocaleString(productObj.saleAmount);
+
     const {productId, regDate, images, delivery} = productObj;
     const {averageReviewScore, totalReviewCount} = productObj.reviewAmount;
     const {cumulationSaleCount, recentSaleCount} = productObj.saleAmount;
@@ -64,11 +68,14 @@ const DateBoard = ({fetchProductObj}) => {
                 </Typography>
                 <Divider>배송 기간</Divider>
                 <Fragment>
-                    {delivery.map(({leadTimeCount, leadTimePercent, rangeNumberText, rangeText}, index) => (
-                        <Typography gutterBottom variant="h7" component="div" key={index}>
-                            {`${rangeNumberText}${rangeText} ${leadTimeCount}건 (${leadTimePercent}%)`}
-                        </Typography>
-                    ))}
+                    {delivery.map((data, index) => {
+                        setLocaleString(data);
+                        return (
+                            <Typography gutterBottom variant="h7" component="div" key={index}>
+                                {`${data.rangeNumberText}${data.rangeText} ${data.leadTimeCount}건 (${data.leadTimePercent}%)`}
+                            </Typography>
+                        )
+                    })}
                 </Fragment>
             </CardContent>
         </Card>

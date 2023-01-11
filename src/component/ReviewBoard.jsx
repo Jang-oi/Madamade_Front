@@ -1,5 +1,6 @@
 // MUI
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {setLocaleString} from "../utils/commonUtil";
 
 const ReviewBoard = ({tableData}) => {
     return (
@@ -14,17 +15,21 @@ const ReviewBoard = ({tableData}) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tableData.map((data, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                        >
-                            <TableCell>{index+1}</TableCell>
-                            <TableCell>{data.productOptionContent}</TableCell>
-                            <TableCell>{data.cnt}</TableCell>
-                            <TableCell>{(data.reviewScore / data.cnt).toFixed(2)}</TableCell>
-                        </TableRow>
-                    ))}
+                    {tableData.map((data, index) => {
+                        data.calReviewScore = data.reviewScore / data.cnt;
+                        setLocaleString(data);
+                        return (
+                            <TableRow
+                                key={index}
+                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                            >
+                                <TableCell>{index+1}</TableCell>
+                                <TableCell>{data.productOptionContent}</TableCell>
+                                <TableCell>{data.cnt}</TableCell>
+                                <TableCell>{data.calReviewScore}</TableCell>
+                            </TableRow>
+                        )
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>
