@@ -23,8 +23,11 @@ const Review = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
         tryCatchCall(() => {
-            urlValidate(url, urlInputRef);
-            serviceCall.post('/getReview', {url: url}, (returnData) => {
+            urlValidate(url);
+            const getReviewOptions = {
+                url: '/getReview',
+            }
+            serviceCall.post(getReviewOptions, (returnData) => {
                 setTableData(returnData);
             });
         }, errorCallBack);

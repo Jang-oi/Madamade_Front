@@ -61,16 +61,27 @@ const callCatch = (error, errorCallBack) => {
 /**
  * 서버 호출 정의
  * @type {{post: serviceCall.post, get: serviceCall.get}}
+ * options
+ *      url      : 호출 url
+ *        String
+ *      data     : 보낼 데이터
+ *        Object
+ *      params   : ?파라미터를 전달
+ *        Object  params : { data : 123 } -> url?data=123
+ *      headers  : 요청 헤더 설정
+ *        Object
  */
 export const serviceCall = {
-    post: (url, param, callBack, errorCallBack) => {
-        axios.post(url, param)
+    post: (options, callBack, errorCallBack) => {
+        const {url} = options;
+        axios.post(url, options)
             .then(response => callThen(response, callBack))
             .catch(error => callCatch(error, errorCallBack));
     },
 
-    get: (url, callBack, errorCallBack) => {
-        axios.get(url)
+    get: (options, callBack, errorCallBack) => {
+        const {url} = options;
+        axios.get(url, options)
             .then(response => callThen(response, callBack))
             .catch(error => callCatch(error, errorCallBack));
     }

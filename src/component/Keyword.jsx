@@ -22,10 +22,12 @@ const Keyword = () => {
      */
     const onSubmitHandler = (e) => {
         e.preventDefault();
-
         tryCatchCall(() => {
             urlValidate(url);
-            serviceCall.post('/getKeyword', {url: url}, (returnData) => {
+            const getReviewOptions = {
+                url: '/getKeyword',
+            }
+            serviceCall.post(getReviewOptions, (returnData) => {
                 setTableData(returnData);
             });
         }, errorCallBack);

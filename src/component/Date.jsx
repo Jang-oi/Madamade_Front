@@ -21,10 +21,12 @@ const Date = () => {
      */
     const onSubmitHandler = (e) => {
         e.preventDefault();
-
         tryCatchCall(() => {
-            urlValidate(url, urlInputRef);
-            serviceCall.post('/getProductDate', {url: url}, (returnData) => {
+            urlValidate(url);
+            const getReviewOptions = {
+                url: '/getProductDate',
+            }
+            serviceCall.post(getReviewOptions, (returnData) => {
                 setFetchProductObj(returnData);
             });
         }, errorCallBack)
