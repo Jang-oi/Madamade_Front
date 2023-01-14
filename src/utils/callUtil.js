@@ -3,7 +3,7 @@ import {customAlert} from "./commonUtil";
 
 axios.defaults.baseURL = `http://${window.location.hostname}:3000/mada`;
 
-export const tryCatchCall = (fn, errCallBack) => {
+export const tryCatchCall = (fn, errCallBackFn) => {
     try {
         fn();
     } catch (error) {
@@ -12,31 +12,71 @@ export const tryCatchCall = (fn, errCallBack) => {
             title: 'Oops...',
             text : error.message,
         }).then(() => {
-            if (errCallBack) errCallBack();
+            if (errCallBackFn) errCallBackFn();
         }).catch(() => {
             alert('customAlert 연결 실패!\n서버 담당자에게 연결 부탁드립니다.');
         });
     }
 }
 
+
+/**
+ * 응답받은 데이터 정의
+ * @param response
+ * @returns {{getReturnData: *, getReturnCode: *, getReturnMessage: *}}
+ */
+const getReturnObj = (response) => {
+
+    return {
+        getReturnData   : response.data?.data,
+        getReturnCode   : response.data?.returnCode,
+        getReturnMessage: response.data?.returnMsg,
+    }
+}
+
 /**
  * 서버를 정상적으로 호출하고 난 이후의 이벤트
  * @param response
- * @param callBack
+ * @param callBackFn
+ * @param errorCallBackFn
  * @returns {*}
  */
-const callThen = (response, callBack) => {
-    const returnData = response.data;
-    if (callBack) callBack(returnData);
-    else return returnData;
+const callThen = (response, callBackFn, errorCallBackFn) => {
+    const {returnCode, returnMsg, returnData} = getReturnObj(response);
+
+    switch (returnCode) {
+        case 0 :
+            customAlert({
+                icon : 'success',
+                title: 'Good Job!',
+                text : returnMsg
+            }).then(() => {
+                if (callBackFn) callBackFn(returnData);
+            });
+            break;
+        case 1 :
+            if (callBackFn) callBackFn(returnData)
+            break;
+        case -1 :
+            customAlert({
+                icon : 'error',
+                title: 'Oops...',
+                text : returnMsg
+            }).then(() => {
+                if (errorCallBackFn) errorCallBackFn()
+            });
+            break;
+        default:
+            break;
+    }
 }
 
 /**
  * 서버를 정상적으로 호출하지 못하고 난 이후의 이벤트
  * @param error
- * @param errorCallBack
+ * @param errorCallBackFn
  */
-const callCatch = (error, errorCallBack) => {
+const callCatch = (error, errorCallBackFn) => {
     let errorMsg;
     switch (error.code) {
         case 'ERR_NETWORK' :
@@ -51,7 +91,7 @@ const callCatch = (error, errorCallBack) => {
         title: 'Oops...',
         text : errorMsg,
     }).then(() => {
-        if (errorCallBack) errorCallBack();
+        if (errorCallBackFn) errorCallBackFn();
     }).catch(() => {
         alert('customAlert 연결 실패!!\n서버 담당자에게 연결 부탁드립니다.')
     });
@@ -72,17 +112,17 @@ const callCatch = (error, errorCallBack) => {
  *        Object
  */
 export const serviceCall = {
-    post: (options, callBack, errorCallBack) => {
+    post: (options, callBackFn, errorCallBackFn) => {
         const {url} = options;
         axios.post(url, options)
-            .then(response => callThen(response, callBack))
-            .catch(error => callCatch(error, errorCallBack));
+            .then(response => callThen(response, callBackFn, errorCallBackFn))
+            .catch(error => callCatch(error, errorCallBackFn));
     },
 
-    get: (options, callBack, errorCallBack) => {
+    get: (options, callBackFn, errorCallBackFn) => {
         const {url} = options;
         axios.get(url, options)
-            .then(response => callThen(response, callBack))
-            .catch(error => callCatch(error, errorCallBack));
+            .then(response => callThen(response, callBackFn, errorCallBackFn))
+            .catch(error => callCatch(error, errorCallBackFn));
     }
 }
