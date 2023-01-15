@@ -17,7 +17,7 @@ const Menubar = () => {
     return (
         <Fragment>
             <Toolbar sx={{borderBottom: 1, borderColor: 'divider'}}>
-                <Button value={'/'} onClick={movePage}>Mada Made</Button>
+                <Button value={'/'} onClick={movePage}>SMART-BENCHMARK</Button>
                 <Typography component="h2" variant="h5" color="inherit" align="center" noWrap sx={{flex: 1}}/>
                 <Button value={'/keyword'} onClick={movePage}>KEYWORD</Button>
                 <Button value={'/date'} onClick={movePage}>DATE</Button>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import {customAlert} from "./commonUtil";
 
-axios.defaults.baseURL = `http://${window.location.hostname}:3000/mada`;
+axios.defaults.baseURL = ``;
 
 export const tryCatchCall = (fn, errCallBackFn) => {
     try {

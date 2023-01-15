@@ -25,7 +25,10 @@
     "start": "set PORT=3001 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "aws s3 sync ./build s3://smart-benchmark --profile=developer",
+    "invalidation" : "aws cloudfront create-invalidation --profile=developer --distribution-id EGSECVZF7NFXW --paths /*",
+    "all": "npm-run-all -s build deploy invalidation"
   },
   "eslintConfig": {
     "extends": [
@@ -44,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
   }
 }
