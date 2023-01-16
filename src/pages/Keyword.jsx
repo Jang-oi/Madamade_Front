@@ -1,14 +1,14 @@
 import {Fragment, useRef, useState} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
-import ReviewBoard from "./ReviewBoard";
+import KeywordBoard from "../component/KeywordBoard";
 import {serviceCall, tryCatchCall} from "../utils/callUtil";
 import {urlValidate} from "../utils/commonUtil";
 
-const Review = () => {
+const Keyword = () => {
 
     const [url, setUrl] = useState('');
-    const [tableData, setTableData] = useState([]);
     const urlInputRef = useRef(null);
+    const [tableData, setTableData] = useState([]);
 
     const errorCallBack = () => {
         setTimeout(() => {
@@ -25,7 +25,7 @@ const Review = () => {
         tryCatchCall(() => {
             urlValidate(url);
             const getReviewOptions = {
-                url: '/getReview',
+                url: '/getKeyword',
             }
             serviceCall.post(getReviewOptions, (returnData) => {
                 setTableData(returnData);
@@ -44,7 +44,7 @@ const Review = () => {
     return (
         <Fragment>
             <Typography variant="h5" component="div" style={{textAlign: 'center', marginTop: '20px'}}>
-                리뷰
+                키워드
             </Typography>
             <Box
                 component="form"
@@ -59,10 +59,10 @@ const Review = () => {
                            inputRef={urlInputRef}
                            onChange={onUrlHandler}/>
                 <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}} disabled={!url}>확인</Button>
-                <ReviewBoard tableData={tableData}/>
             </Box>
+            <KeywordBoard tableData={tableData}/>
         </Fragment>
     )
 }
 
-export default Review;
+export default Keyword;

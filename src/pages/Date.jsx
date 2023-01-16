@@ -1,21 +1,20 @@
 import {Fragment, useRef, useState} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
-import KeywordBoard from "./KeywordBoard";
+import DateBoard from "../component/DateBoard";
 import {serviceCall, tryCatchCall} from "../utils/callUtil";
 import {urlValidate} from "../utils/commonUtil";
 
-const Keyword = () => {
+const Date = () => {
 
     const [url, setUrl] = useState('');
+    const [fetchProductObj, setFetchProductObj] = useState({});
     const urlInputRef = useRef(null);
-    const [tableData, setTableData] = useState([]);
 
     const errorCallBack = () => {
         setTimeout(() => {
             urlInputRef.current.focus();
         }, 300);
     }
-
     /**
      * 확인버튼 클릭 시 이벤트
      * @param e
@@ -25,12 +24,12 @@ const Keyword = () => {
         tryCatchCall(() => {
             urlValidate(url);
             const getReviewOptions = {
-                url: '/getKeyword',
+                url: '/getProductDate',
             }
             serviceCall.post(getReviewOptions, (returnData) => {
-                setTableData(returnData);
+                setFetchProductObj(returnData);
             });
-        }, errorCallBack);
+        }, errorCallBack)
     }
 
     /**
@@ -44,7 +43,7 @@ const Keyword = () => {
     return (
         <Fragment>
             <Typography variant="h5" component="div" style={{textAlign: 'center', marginTop: '20px'}}>
-                키워드
+                등록일자
             </Typography>
             <Box
                 component="form"
@@ -60,9 +59,9 @@ const Keyword = () => {
                            onChange={onUrlHandler}/>
                 <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}} disabled={!url}>확인</Button>
             </Box>
-            <KeywordBoard tableData={tableData}/>
+            <DateBoard fetchProductObj={fetchProductObj}/>
         </Fragment>
-    )
+    );
 }
 
-export default Keyword;
+export default Date;

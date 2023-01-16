@@ -1,13 +1,13 @@
 import {Fragment, useRef, useState} from "react";
 import {Box, Button, TextField, Typography} from "@mui/material";
-import DateBoard from "./DateBoard";
+import ReviewBoard from "../component/ReviewBoard";
 import {serviceCall, tryCatchCall} from "../utils/callUtil";
 import {urlValidate} from "../utils/commonUtil";
 
-const Date = () => {
+const Review = () => {
 
     const [url, setUrl] = useState('');
-    const [fetchProductObj, setFetchProductObj] = useState({});
+    const [tableData, setTableData] = useState([]);
     const urlInputRef = useRef(null);
 
     const errorCallBack = () => {
@@ -15,6 +15,7 @@ const Date = () => {
             urlInputRef.current.focus();
         }, 300);
     }
+
     /**
      * 확인버튼 클릭 시 이벤트
      * @param e
@@ -24,12 +25,12 @@ const Date = () => {
         tryCatchCall(() => {
             urlValidate(url);
             const getReviewOptions = {
-                url: '/getProductDate',
+                url: '/getReview',
             }
             serviceCall.post(getReviewOptions, (returnData) => {
-                setFetchProductObj(returnData);
+                setTableData(returnData);
             });
-        }, errorCallBack)
+        }, errorCallBack);
     }
 
     /**
@@ -43,7 +44,7 @@ const Date = () => {
     return (
         <Fragment>
             <Typography variant="h5" component="div" style={{textAlign: 'center', marginTop: '20px'}}>
-                등록일자
+                리뷰
             </Typography>
             <Box
                 component="form"
@@ -58,10 +59,10 @@ const Date = () => {
                            inputRef={urlInputRef}
                            onChange={onUrlHandler}/>
                 <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}} disabled={!url}>확인</Button>
+                <ReviewBoard tableData={tableData}/>
             </Box>
-            <DateBoard fetchProductObj={fetchProductObj}/>
         </Fragment>
-    );
+    )
 }
 
-export default Date;
+export default Review;

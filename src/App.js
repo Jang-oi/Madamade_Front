@@ -6,11 +6,11 @@ import axios from "axios";
 import {Container} from "@mui/material";
 
 import Loading from "./component/Loding";
-import Review from "./component/Review";
+import Review from "./pages/Review";
 import Menubar from "./component/Menubar";
 import Main from "./component/Main";
-import Keyword from "./component/Keyword";
-import Date from "./component/Date";
+import Keyword from "./pages/Keyword";
+import Date from "./pages/Date";
 
 
 function App() {
