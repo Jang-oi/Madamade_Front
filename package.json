@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "aws s3 sync ./build s3://smart-benchmark --profile=developer",
-    "invalidation" : "aws cloudfront create-invalidation --profile=developer --distribution-id EGSECVZF7NFXW --paths /*",
+    "invalidation": "aws cloudfront create-invalidation --profile=developer --distribution-id EGSECVZF7NFXW --paths /*",
     "all": "npm-run-all -s build deploy invalidation"
   },
   "eslintConfig": {
@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.3"
   }
 }

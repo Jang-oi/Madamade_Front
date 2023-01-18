@@ -1,11 +1,11 @@
 // MUI
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import {setLocaleString} from "../utils/commonUtil";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { setLocaleString } from '../utils/commonUtil';
 
-const ReviewBoard = ({tableData}) => {
+const ReviewBoard = ({ tableData }) => {
     return (
         <TableContainer component={Paper}>
-            <Table sx={{minWidth: 650}} aria-label="simple table">
+            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
                 <TableHead>
                     <TableRow>
                         <TableCell>순위</TableCell>
@@ -21,19 +21,19 @@ const ReviewBoard = ({tableData}) => {
                         return (
                             <TableRow
                                 key={index}
-                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell>{index+1}</TableCell>
+                                <TableCell>{index + 1}</TableCell>
                                 <TableCell>{data.productOptionContent}</TableCell>
                                 <TableCell>{data.cnt}</TableCell>
                                 <TableCell>{data.calReviewScore}</TableCell>
                             </TableRow>
-                        )
+                        );
                     })}
                 </TableBody>
             </Table>
         </TableContainer>
-    )
-}
+    );
+};
 
 export default ReviewBoard;

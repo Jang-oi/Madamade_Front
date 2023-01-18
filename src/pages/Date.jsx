@@ -1,8 +1,8 @@
-import {Fragment, useRef, useState} from "react";
-import {Box, Button, TextField, Typography} from "@mui/material";
-import DateBoard from "../component/DateBoard";
-import {serviceCall, tryCatchCall} from "../utils/callUtil";
-import {urlValidate} from "../utils/commonUtil";
+import { Fragment, useRef, useState } from 'react';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import DateBoard from '../component/DateBoard';
+import { serviceCall, tryCatchCall } from '../utils/callUtil';
+import { urlValidate } from '../utils/commonUtil';
 
 const Date = () => {
 
@@ -14,7 +14,7 @@ const Date = () => {
         setTimeout(() => {
             urlInputRef.current.focus();
         }, 300);
-    }
+    };
     /**
      * 확인버튼 클릭 시 이벤트
      * @param e
@@ -25,12 +25,12 @@ const Date = () => {
             urlValidate(url);
             const getReviewOptions = {
                 url: '/getProductDate',
-            }
+            };
             serviceCall.post(getReviewOptions, (returnData) => {
                 setFetchProductObj(returnData);
             });
-        }, errorCallBack)
-    }
+        }, errorCallBack);
+    };
 
     /**
      * URL 입력 시 이벤트
@@ -38,15 +38,15 @@ const Date = () => {
      */
     const onUrlHandler = (e) => {
         setUrl(e.currentTarget.value);
-    }
+    };
 
     return (
         <Fragment>
-            <Typography variant="h5" component="div" style={{textAlign: 'center', marginTop: '20px'}}>
+            <Typography variant='h5' component='div' style={{ textAlign: 'center', marginTop: '20px' }}>
                 등록일자
             </Typography>
             <Box
-                component="form"
+                component='form'
                 onSubmit={onSubmitHandler}
                 sx={{
                     display      : 'flex',
@@ -54,14 +54,14 @@ const Date = () => {
                     alignItems   : 'center',
                 }}
             >
-                <TextField variant="standard" autoFocus fullWidth label="URL을 입력해주세요." value={url}
+                <TextField variant='standard' autoFocus fullWidth label='URL을 입력해주세요.' value={url}
                            inputRef={urlInputRef}
-                           onChange={onUrlHandler}/>
-                <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}} disabled={!url}>확인</Button>
+                           onChange={onUrlHandler} />
+                <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }} disabled={!url}>확인</Button>
             </Box>
-            <DateBoard fetchProductObj={fetchProductObj}/>
+            <DateBoard fetchProductObj={fetchProductObj} />
         </Fragment>
     );
-}
+};
 
 export default Date;

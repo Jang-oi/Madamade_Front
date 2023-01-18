@@ -1,11 +1,10 @@
-import {Fragment, useRef, useState} from "react";
-import {Box, Button, TextField, Typography} from "@mui/material";
-import KeywordBoard from "../component/KeywordBoard";
-import {serviceCall, tryCatchCall} from "../utils/callUtil";
-import {urlValidate} from "../utils/commonUtil";
+import { Fragment, useRef, useState } from 'react';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import KeywordBoard from '../component/KeywordBoard';
+import { serviceCall, tryCatchCall } from '../utils/callUtil';
+import { urlValidate } from '../utils/commonUtil';
 
 const Keyword = () => {
-
     const [url, setUrl] = useState('');
     const urlInputRef = useRef(null);
     const [tableData, setTableData] = useState([]);
@@ -14,7 +13,7 @@ const Keyword = () => {
         setTimeout(() => {
             urlInputRef.current.focus();
         }, 300);
-    }
+    };
 
     /**
      * 확인버튼 클릭 시 이벤트
@@ -26,12 +25,12 @@ const Keyword = () => {
             urlValidate(url);
             const getReviewOptions = {
                 url: '/getKeyword',
-            }
+            };
             serviceCall.post(getReviewOptions, (returnData) => {
                 setTableData(returnData);
             });
         }, errorCallBack);
-    }
+    };
 
     /**
      * URL 입력 시 이벤트
@@ -39,15 +38,15 @@ const Keyword = () => {
      */
     const onUrlHandler = (e) => {
         setUrl(e.currentTarget.value);
-    }
+    };
 
     return (
         <Fragment>
-            <Typography variant="h5" component="div" style={{textAlign: 'center', marginTop: '20px'}}>
+            <Typography variant='h5' component='div' style={{ textAlign: 'center', marginTop: '20px' }}>
                 키워드
             </Typography>
             <Box
-                component="form"
+                component='form'
                 onSubmit={onSubmitHandler}
                 sx={{
                     display      : 'flex',
@@ -55,14 +54,22 @@ const Keyword = () => {
                     alignItems   : 'center',
                 }}
             >
-                <TextField variant="standard" autoFocus fullWidth label="URL을 입력해주세요." value={url}
-                           inputRef={urlInputRef}
-                           onChange={onUrlHandler}/>
-                <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}} disabled={!url}>확인</Button>
+                <TextField
+                    variant='standard'
+                    autoFocus
+                    fullWidth
+                    label='URL을 입력해주세요.'
+                    value={url}
+                    inputRef={urlInputRef}
+                    onChange={onUrlHandler}
+                />
+                <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }} disabled={!url}>
+                    확인
+                </Button>
             </Box>
-            <KeywordBoard tableData={tableData}/>
+            <KeywordBoard tableData={tableData} />
         </Fragment>
-    )
-}
+    );
+};
 
 export default Keyword;

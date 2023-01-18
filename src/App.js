@@ -1,16 +1,16 @@
 import './App.css';
-import {useState} from "react";
-import {Route, Routes} from "react-router-dom";
-import axios from "axios";
+import { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import axios from 'axios';
 
-import {Container} from "@mui/material";
+import { Container } from '@mui/material';
 
-import Loading from "./component/Loding";
-import Review from "./pages/Review";
-import Menubar from "./component/Menubar";
-import Main from "./component/Main";
-import Keyword from "./pages/Keyword";
-import Date from "./pages/Date";
+import Loading from './component/Loding';
+import Review from './pages/Review';
+import Menubar from './component/Menubar';
+import Main from './component/Main';
+import Keyword from './pages/Keyword';
+import Date from './pages/Date';
 
 
 function App() {
@@ -28,8 +28,8 @@ function App() {
         error => {
             setLoading(true);
             return Promise.reject(error);
-        }
-    )
+        },
+    );
     axios.interceptors.response.use(
         config => {
             setLoading(false);
@@ -38,18 +38,18 @@ function App() {
         error => {
             setLoading(false);
             return Promise.reject(error);
-        }
-    )
+        },
+    );
 
     return (
         <Container>
-            <Menubar/>
-            {loading && <Loading/>}
+            <Menubar />
+            {loading && <Loading />}
             <Routes>
-                <Route path="/" element={<Main/>}/>
-                <Route path="/keyword" element={<Keyword/>}/>
-                <Route path="/date" element={<Date/>}/>
-                <Route path="/review" element={<Review/>}/>
+                <Route path='/' element={<Main />} />
+                <Route path='/keyword' element={<Keyword />} />
+                <Route path='/date' element={<Date />} />
+                <Route path='/review' element={<Review />} />
             </Routes>
         </Container>
     );

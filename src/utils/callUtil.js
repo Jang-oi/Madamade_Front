@@ -1,5 +1,5 @@
-import axios from "axios";
-import {customAlert} from "./commonUtil";
+import axios from 'axios';
+import { customAlert } from './commonUtil';
 
 axios.defaults.baseURL = ``;
 
@@ -17,7 +17,7 @@ export const tryCatchCall = (fn, errCallBackFn) => {
             alert('customAlert 연결 실패!\n서버 담당자에게 연결 부탁드립니다.');
         });
     }
-}
+};
 
 
 /**
@@ -31,8 +31,8 @@ const getReturnObj = (response) => {
         getReturnData   : response.data?.data,
         getReturnCode   : response.data?.returnCode,
         getReturnMessage: response.data?.returnMsg,
-    }
-}
+    };
+};
 
 /**
  * 서버를 정상적으로 호출하고 난 이후의 이벤트
@@ -42,34 +42,34 @@ const getReturnObj = (response) => {
  * @returns {*}
  */
 const callThen = (response, callBackFn, errorCallBackFn) => {
-    const {returnCode, returnMsg, returnData} = getReturnObj(response);
+    const { returnCode, returnMsg, returnData } = getReturnObj(response);
 
     switch (returnCode) {
         case 0 :
             customAlert({
                 icon : 'success',
                 title: 'Good Job!',
-                text : returnMsg
+                text : returnMsg,
             }).then(() => {
                 if (callBackFn) callBackFn(returnData);
             });
             break;
         case 1 :
-            if (callBackFn) callBackFn(returnData)
+            if (callBackFn) callBackFn(returnData);
             break;
         case -1 :
             customAlert({
                 icon : 'error',
                 title: 'Oops...',
-                text : returnMsg
+                text : returnMsg,
             }).then(() => {
-                if (errorCallBackFn) errorCallBackFn()
+                if (errorCallBackFn) errorCallBackFn();
             });
             break;
         default:
             break;
     }
-}
+};
 
 /**
  * 서버를 정상적으로 호출하지 못하고 난 이후의 이벤트
@@ -80,10 +80,10 @@ const callCatch = (error, errorCallBackFn) => {
     let errorMsg;
     switch (error.code) {
         case 'ERR_NETWORK' :
-            errorMsg = '서버 연결 실패!! \n서버 담당자 연결 부탁드립니다.'
+            errorMsg = '서버 연결 실패!! \n서버 담당자 연결 부탁드립니다.';
             break;
         default :
-            errorMsg = '서버 담당자 연결 부탁드립니다.'
+            errorMsg = '서버 담당자 연결 부탁드립니다.';
             break;
     }
     customAlert({
@@ -93,9 +93,9 @@ const callCatch = (error, errorCallBackFn) => {
     }).then(() => {
         if (errorCallBackFn) errorCallBackFn();
     }).catch(() => {
-        alert('customAlert 연결 실패!!\n서버 담당자에게 연결 부탁드립니다.')
+        alert('customAlert 연결 실패!!\n서버 담당자에게 연결 부탁드립니다.');
     });
-}
+};
 
 
 /**
@@ -113,16 +113,16 @@ const callCatch = (error, errorCallBackFn) => {
  */
 export const serviceCall = {
     post: (options, callBackFn, errorCallBackFn) => {
-        const {url} = options;
+        const { url } = options;
         axios.post(url, options)
             .then(response => callThen(response, callBackFn, errorCallBackFn))
             .catch(error => callCatch(error, errorCallBackFn));
     },
 
     get: (options, callBackFn, errorCallBackFn) => {
-        const {url} = options;
+        const { url } = options;
         axios.get(url, options)
             .then(response => callThen(response, callBackFn, errorCallBackFn))
             .catch(error => callCatch(error, errorCallBackFn));
-    }
-}
+    },
+};
