@@ -28,7 +28,7 @@
     "eject": "react-scripts eject",
     "deploy": "aws s3 sync ./build s3://smart-benchmark --profile=developer",
     "invalidation": "aws cloudfront create-invalidation --profile=developer --distribution-id EGSECVZF7NFXW --paths /*",
-    "all": "npm-run-all -s build deploy invalidation"
+    "all": "npm-run-all -s build deploy"
   },
   "eslintConfig": {
     "extends": [
