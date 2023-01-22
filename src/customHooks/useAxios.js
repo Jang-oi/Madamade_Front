@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { customAlert } from '../utils/commonUtil';
 import { getErrorMessage, getReturnObj } from '../utils/callUtil';
 import { useLoadingDispatch } from '../contexts/loadingContext';
-
-axios.defaults.baseURL = 'http://localhost:3000/mada/';
 
 export const useAxios = () => {
 
@@ -12,11 +9,11 @@ export const useAxios = () => {
     const loadingDispatch = useLoadingDispatch();
 
     const axiosFetch = async (configObj) => {
-        const { method, url, requestConfig = {} } = configObj;
+        const { axiosInstance, method, url, requestConfig = {} } = configObj;
 
         try {
             loadingDispatch({ type: 'SET_LOADING', loading: true });
-            const res = await axios[method.toLowerCase()](url, { ...requestConfig });
+            const res = await axiosInstance[method.toLowerCase()](url, { ...requestConfig });
             const { returnCode, returnMessage, returnData } = getReturnObj(res);
 
             switch (returnCode) {
@@ -41,5 +38,3 @@ export const useAxios = () => {
 
     return [response, axiosFetch];
 };
-
-export default useAxios;

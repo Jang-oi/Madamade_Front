@@ -3,9 +3,9 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import DateBoard from '../component/DateBoard';
 import { urlValidate } from '../utils/validateUtil';
 import { useAxios } from '../customHooks/useAxios';
+import axios from '../apis/smartBenchmark';
 
 const Date = () => {
-
     const [url, setUrl] = useState('');
     const [fetchProductObj, axiosFetch] = useAxios();
     const urlInputRef = useRef(null);
@@ -23,6 +23,7 @@ const Date = () => {
         e.preventDefault();
         await urlValidate(url, errorCallBack);
         await axiosFetch({
+            axiosInstance: axios,
             method       : 'POST',
             url          : '/getProductDate',
             requestConfig: { url },

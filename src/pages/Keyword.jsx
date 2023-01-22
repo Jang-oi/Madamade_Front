@@ -3,6 +3,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import KeywordBoard from '../component/KeywordBoard';
 import { urlValidate } from '../utils/validateUtil';
 import { useAxios } from '../customHooks/useAxios';
+import axios from '../apis/smartBenchmark';
 
 const Keyword = () => {
     const [url, setUrl] = useState('');
@@ -23,6 +24,7 @@ const Keyword = () => {
         e.preventDefault();
         await urlValidate(url, errorCallBack);
         await axiosFetch({
+            axiosInstance: axios,
             method       : 'POST',
             url          : '/getKeyword',
             requestConfig: { url },

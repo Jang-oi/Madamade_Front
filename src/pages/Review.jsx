@@ -3,9 +3,9 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import ReviewBoard from '../component/ReviewBoard';
 import { urlValidate } from '../utils/validateUtil';
 import { useAxios } from '../customHooks/useAxios';
+import axios from '../apis/smartBenchmark';
 
 const Review = () => {
-
     const [url, setUrl] = useState('');
     const urlInputRef = useRef(null);
     const [tableData, axiosFetch] = useAxios();
@@ -23,6 +23,7 @@ const Review = () => {
         e.preventDefault();
         await urlValidate(url, errorCallBack);
         await axiosFetch({
+            axiosInstance: axios,
             method       : 'POST',
             url          : '/getReview',
             requestConfig: { url },
