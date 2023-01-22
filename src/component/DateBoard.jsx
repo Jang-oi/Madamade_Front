@@ -11,11 +11,13 @@ const DateBoard = ({ fetchProductObj }) => {
 
     const [thumbnailImage, setThumbnailImage] = useState('');
     const [productObj, setProductObj] = useState({});
+
     useEffect(() => {
         setProductObj(fetchProductObj);
-        setThumbnailImage(fetchProductObj.thumbnail);
+        setThumbnailImage(fetchProductObj?.thumbnail);
     }, [fetchProductObj]);
 
+    if (!fetchProductObj) return;
     if (isEmptyObj(productObj)) return;
 
     setLocaleString(productObj.reviewAmount);
@@ -39,7 +41,7 @@ const DateBoard = ({ fetchProductObj }) => {
                 rowHeight={100}
                 key={1}
             >
-                {images.map((item) => (
+                {images && images.map((item) => (
                     <ImageListItem key={item.url}>
                         <img src={item.url}
                              alt={item.title}
@@ -68,7 +70,7 @@ const DateBoard = ({ fetchProductObj }) => {
                 </Typography>
                 <Divider>배송 기간</Divider>
                 <Fragment>
-                    {delivery.map((data, index) => {
+                    {delivery && delivery.map((data, index) => {
                         setLocaleString(data);
                         return (
                             <Typography gutterBottom variant='h7' component='div' key={index}>

@@ -1,13 +1,14 @@
 import { Fragment, useRef, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import KeywordBoard from '../component/KeywordBoard';
-import { serviceCall, tryCatchCall } from '../utils/callUtil';
+import { tryCatchCall } from '../utils/callUtil';
 import { urlValidate } from '../utils/commonUtil';
+import { useAxios } from '../customHooks/useAxios';
 
 const Keyword = () => {
     const [url, setUrl] = useState('');
     const urlInputRef = useRef(null);
-    const [tableData, setTableData] = useState([]);
+    const [tableData, axiosFetch] = useAxios();
 
     const errorCallBack = () => {
         setTimeout(() => {
@@ -21,13 +22,14 @@ const Keyword = () => {
      */
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        tryCatchCall(() => {
+        tryCatchCall(async () => {
             urlValidate(url);
-            const getReviewOptions = {
-                url: '/getKeyword',
-            };
-            serviceCall.post(getReviewOptions, (returnData) => {
-                setTableData(returnData);
+            await axiosFetch({
+                method       : 'post',
+                url          : '/getKeyword',
+                requestConfig: {
+                    url,
+                },
             });
         }, errorCallBack);
     };

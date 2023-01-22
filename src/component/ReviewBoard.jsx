@@ -15,7 +15,7 @@ const ReviewBoard = ({ tableData }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tableData.map((data, index) => {
+                    {tableData && tableData.map((data, index) => {
                         data.calReviewScore = data.reviewScore / data.cnt;
                         setLocaleString(data);
                         return (

@@ -1,15 +1,15 @@
 import { Fragment, useRef, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import ReviewBoard from '../component/ReviewBoard';
-import { serviceCall, tryCatchCall } from '../utils/callUtil';
+import { tryCatchCall } from '../utils/callUtil';
 import { urlValidate } from '../utils/commonUtil';
+import { useAxios } from '../customHooks/useAxios';
 
 const Review = () => {
 
     const [url, setUrl] = useState('');
-    const [tableData, setTableData] = useState([]);
     const urlInputRef = useRef(null);
-
+    const [tableData, axiosFetch] = useAxios();
     const errorCallBack = () => {
         setTimeout(() => {
             urlInputRef.current.focus();
@@ -22,14 +22,16 @@ const Review = () => {
      */
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        tryCatchCall(() => {
+        tryCatchCall(async () => {
             urlValidate(url);
-            const getReviewOptions = {
-                url: '/getReview',
-            };
-            serviceCall.post(getReviewOptions, (returnData) => {
-                setTableData(returnData);
+            await axiosFetch({
+                method       : 'post',
+                url          : '/getReview',
+                requestConfig: {
+                    url,
+                },
             });
+
         }, errorCallBack);
     };
 

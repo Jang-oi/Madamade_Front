@@ -3,7 +3,6 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { setLocaleString } from '../utils/commonUtil';
 
 const KeywordBoard = ({ tableData }) => {
-
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -28,7 +27,7 @@ const KeywordBoard = ({ tableData }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {tableData.map((data, index) => {
+                    {tableData && tableData.map((data, index) => {
                         setLocaleString(data);
                         return (
                             <TableRow

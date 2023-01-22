@@ -1,13 +1,14 @@
 import { Fragment, useRef, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import DateBoard from '../component/DateBoard';
-import { serviceCall, tryCatchCall } from '../utils/callUtil';
+import { tryCatchCall } from '../utils/callUtil';
 import { urlValidate } from '../utils/commonUtil';
+import { useAxios } from '../customHooks/useAxios';
 
 const Date = () => {
 
     const [url, setUrl] = useState('');
-    const [fetchProductObj, setFetchProductObj] = useState({});
+    const [fetchProductObj, axiosFetch] = useAxios();
     const urlInputRef = useRef(null);
 
     const errorCallBack = () => {
@@ -21,13 +22,14 @@ const Date = () => {
      */
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        tryCatchCall(() => {
+        tryCatchCall(async () => {
             urlValidate(url);
-            const getReviewOptions = {
-                url: '/getProductDate',
-            };
-            serviceCall.post(getReviewOptions, (returnData) => {
-                setFetchProductObj(returnData);
+            await axiosFetch({
+                method       : 'post',
+                url          : '/getProductDate',
+                requestConfig: {
+                    url,
+                },
             });
         }, errorCallBack);
     };
