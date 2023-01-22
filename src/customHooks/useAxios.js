@@ -12,21 +12,13 @@ export const useAxios = () => {
     const loadingDispatch = useLoadingDispatch();
 
     const axiosFetch = async (configObj) => {
-        const {
-            method,
-            url,
-            requestConfig = {},
-        } = configObj;
+        const { method, url, requestConfig = {} } = configObj;
 
         try {
-            loadingDispatch({
-                type   : 'SET_LOADING',
-                loading: true,
-            });
-            const res = await axios[method](url, {
-                ...requestConfig,
-            });
+            loadingDispatch({ type: 'SET_LOADING', loading: true });
+            const res = await axios[method](url, { ...requestConfig });
             const { returnCode, returnMessage, returnData } = getReturnObj(res);
+
             switch (returnCode) {
                 case 0 :
                     setResponse(returnData);
@@ -43,10 +35,7 @@ export const useAxios = () => {
         } catch (err) {
             uniAlert({ returnMessage: getErrorMessage(err), isError: true });
         } finally {
-            loadingDispatch({
-                type   : 'SET_LOADING',
-                loading: false,
-            });
+            loadingDispatch({ type: 'SET_LOADING', loading: false });
         }
     };
 
