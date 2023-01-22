@@ -1,22 +1,3 @@
-import { customAlert } from './commonUtil';
-
-export const tryCatchCall = (fn, errCallBackFn) => {
-    try {
-        fn();
-    } catch (error) {
-        customAlert({
-            icon : 'error',
-            title: 'Oops...',
-            text : error.message,
-        }).then(() => {
-            if (errCallBackFn) errCallBackFn();
-        }).catch(() => {
-            alert('customAlert 연결 실패!\n서버 담당자에게 연결 부탁드립니다.');
-        });
-    }
-};
-
-
 /**
  * 응답받은 데이터 정의
  * @param response

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { uniAlert } from '../utils/commonUtil';
+import { customAlert } from '../utils/commonUtil';
 import { getErrorMessage, getReturnObj } from '../utils/callUtil';
 import { useLoadingDispatch } from '../contexts/loadingContext';
 
@@ -16,7 +16,7 @@ export const useAxios = () => {
 
         try {
             loadingDispatch({ type: 'SET_LOADING', loading: true });
-            const res = await axios[method](url, { ...requestConfig });
+            const res = await axios[method.toLowerCase()](url, { ...requestConfig });
             const { returnCode, returnMessage, returnData } = getReturnObj(res);
 
             switch (returnCode) {
@@ -24,16 +24,16 @@ export const useAxios = () => {
                     setResponse(returnData);
                     break;
                 case 1 :
-                    uniAlert({ returnMessage, isError: false }, setResponse(returnData));
+                    customAlert({ text: returnMessage, isError: false }, setResponse(returnData));
                     break;
                 case -1 :
-                    uniAlert({ returnMessage, isError: true });
+                    customAlert({ text: returnMessage, isError: true });
                     break;
                 default:
                     break;
             }
         } catch (err) {
-            uniAlert({ returnMessage: getErrorMessage(err), isError: true });
+            customAlert({ text: getErrorMessage(err), isError: true });
         } finally {
             loadingDispatch({ type: 'SET_LOADING', loading: false });
         }

@@ -1,8 +1,7 @@
 import { Fragment, useRef, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import ReviewBoard from '../component/ReviewBoard';
-import { tryCatchCall } from '../utils/callUtil';
-import { urlValidate } from '../utils/commonUtil';
+import { urlValidate } from '../utils/validateUtil';
 import { useAxios } from '../customHooks/useAxios';
 
 const Review = () => {
@@ -20,19 +19,14 @@ const Review = () => {
      * 확인버튼 클릭 시 이벤트
      * @param e
      */
-    const onSubmitHandler = (e) => {
+    const onSubmitHandler = async (e) => {
         e.preventDefault();
-        tryCatchCall(async () => {
-            urlValidate(url);
-            await axiosFetch({
-                method       : 'post',
-                url          : '/getReview',
-                requestConfig: {
-                    url,
-                },
-            });
-
-        }, errorCallBack);
+        await urlValidate(url, errorCallBack);
+        await axiosFetch({
+            method       : 'POST',
+            url          : '/getReview',
+            requestConfig: { url },
+        });
     };
 
     /**

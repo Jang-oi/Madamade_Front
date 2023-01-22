@@ -18,7 +18,7 @@ import withReactContent from 'sweetalert2-react-content';
  * @param options
  * @returns {Promise<SweetAlertResult>}
  */
-export const customAlert = (options) => {
+export const sweetAlert = (options) => {
     const MySwal = withReactContent(Swal);
     return MySwal.fire(options);
 };
@@ -33,12 +33,13 @@ export const customAlert = (options) => {
  *  }
  * @param callBackFn
  */
-export const uniAlert = (options, callBackFn) => {
+export const customAlert = (options, callBackFn) => {
 
-    const { returnMessage, isError, timer } = options;
+    const { text, isError, timer } = options;
     const icon = (isError) ? 'error' : 'success';
-    customAlert({
-        icon, text: returnMessage, timer,
+    const title = (isError) ? 'Oops...' : 'Good Job!';
+    sweetAlert({
+        icon, title, text, timer,
     }).then(() => {
         if (callBackFn) callBackFn();
     }).catch(() => {
@@ -46,18 +47,7 @@ export const uniAlert = (options, callBackFn) => {
     });
 };
 
-/**
- * 리뷰를 위해 사용하는 url 검증
- * @param url
- */
-export const urlValidate = (url) => {
-    let bool = true;
 
-    if (url.toLowerCase().includes('https://smartstore.naver.com')) bool = false;
-    if (url.toLowerCase().includes('https://brand.naver.com')) bool = false;
-
-    if (bool) throw new Error('입력하신 URL 확인 부탁드립니다.');
-};
 
 /**
  * 오브젝트의 키 값이 존재하더라도 value 값이 0, null, '', undefined 일 경우

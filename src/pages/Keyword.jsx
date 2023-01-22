@@ -1,8 +1,7 @@
 import { Fragment, useRef, useState } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import KeywordBoard from '../component/KeywordBoard';
-import { tryCatchCall } from '../utils/callUtil';
-import { urlValidate } from '../utils/commonUtil';
+import { urlValidate } from '../utils/validateUtil';
 import { useAxios } from '../customHooks/useAxios';
 
 const Keyword = () => {
@@ -20,18 +19,14 @@ const Keyword = () => {
      * 확인버튼 클릭 시 이벤트
      * @param e
      */
-    const onSubmitHandler = (e) => {
+    const onSubmitHandler = async (e) => {
         e.preventDefault();
-        tryCatchCall(async () => {
-            urlValidate(url);
-            await axiosFetch({
-                method       : 'post',
-                url          : '/getKeyword',
-                requestConfig: {
-                    url,
-                },
-            });
-        }, errorCallBack);
+        await urlValidate(url, errorCallBack);
+        await axiosFetch({
+            method       : 'POST',
+            url          : '/getKeyword',
+            requestConfig: { url },
+        });
     };
 
     /**
