@@ -1,20 +1,27 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import ReviewBoard from '../component/ReviewBoard';
 import { urlValidate } from '../utils/validateUtil';
 import { useAxios } from '../customHooks/useAxios';
 import axios from '../apis/smartBenchmark';
+import { useUrlDispatch, useUrlState } from '../contexts/urlContext';
+import { useFetchDataDispatch } from '../contexts/fetchDataContext';
 
 const Review = () => {
-    const [url, setUrl] = useState('');
     const urlInputRef = useRef(null);
     const [tableData, axiosFetch] = useAxios();
+
+    const urlState = useUrlState();
+    const urlDispatch = useUrlDispatch();
+
+    const { url } = urlState;
+    const fetchDataDispatch = useFetchDataDispatch();
+
     const errorCallBack = () => {
         setTimeout(() => {
             urlInputRef.current.focus();
         }, 300);
     };
-
     /**
      * 확인버튼 클릭 시 이벤트
      * @param e
@@ -35,8 +42,13 @@ const Review = () => {
      * @param e
      */
     const onUrlHandler = (e) => {
-        setUrl(e.currentTarget.value);
+        urlDispatch({ type: 'SET_URL', url: e.currentTarget.value });
     };
+
+    useEffect(() => {
+        if (tableData) fetchDataDispatch({ type: 'SET_REVIEW_DATA', review: tableData });
+    }, [fetchDataDispatch, tableData]);
+
 
     return (
         <Fragment>

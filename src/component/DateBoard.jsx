@@ -6,18 +6,19 @@ import {
 } from '@mui/material';
 
 import { isEmptyObj, setLocaleString } from '../utils/commonUtil';
+import { useFetchDataState } from '../contexts/fetchDataContext';
 
 const DateBoard = ({ fetchProductObj }) => {
 
     const [thumbnailImage, setThumbnailImage] = useState('');
     const [productObj, setProductObj] = useState({});
-
+    const fetchDataState = useFetchDataState();
     useEffect(() => {
         setProductObj(fetchProductObj);
         setThumbnailImage(fetchProductObj?.thumbnail);
     }, [fetchProductObj]);
 
-    if (!fetchProductObj) return;
+    if (!fetchProductObj) fetchProductObj = fetchDataState.date;
     if (isEmptyObj(productObj)) return;
 
     setLocaleString(productObj.reviewAmount);

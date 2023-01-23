@@ -1,8 +1,12 @@
 // MUI
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { setLocaleString } from '../utils/commonUtil';
+import { useFetchDataState } from '../contexts/fetchDataContext';
 
 const ReviewBoard = ({ tableData }) => {
+    const fetchDataState = useFetchDataState();
+    if (!tableData) tableData = fetchDataState.review;
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label='simple table'>

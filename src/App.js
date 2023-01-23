@@ -10,7 +10,8 @@ import Main from './component/Main';
 import Keyword from './pages/Keyword';
 import Date from './pages/Date';
 import { useLoadingState } from './contexts/loadingContext';
-
+import { UrlProvider } from './contexts/urlContext';
+import { FetchDataProvider } from './contexts/fetchDataContext';
 
 function App() {
 
@@ -18,16 +19,20 @@ function App() {
     const { loading } = loadingState;
 
     return (
-        <Container>
-            <Menubar />
-            {loading && <Loading />}
-            <Routes>
-                <Route path='/' element={<Main />} />
-                <Route path='/keyword' element={<Keyword />} />
-                <Route path='/date' element={<Date />} />
-                <Route path='/review' element={<Review />} />
-            </Routes>
-        </Container>
+        <UrlProvider>
+            <FetchDataProvider>
+                <Container>
+                    <Menubar />
+                    {loading && <Loading />}
+                    <Routes>
+                        <Route path='/' element={<Main />} />
+                        <Route path='/keyword' element={<Keyword />} />
+                        <Route path='/date' element={<Date />} />
+                        <Route path='/review' element={<Review />} />
+                    </Routes>
+                </Container>
+            </FetchDataProvider>
+        </UrlProvider>
     );
 }
 

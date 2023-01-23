@@ -1,14 +1,21 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import KeywordBoard from '../component/KeywordBoard';
 import { urlValidate } from '../utils/validateUtil';
 import { useAxios } from '../customHooks/useAxios';
 import axios from '../apis/smartBenchmark';
+import { useUrlDispatch, useUrlState } from '../contexts/urlContext';
+import { useFetchDataDispatch } from '../contexts/fetchDataContext';
 
 const Keyword = () => {
-    const [url, setUrl] = useState('');
     const urlInputRef = useRef(null);
     const [tableData, axiosFetch] = useAxios();
+
+    const urlState = useUrlState();
+    const urlDispatch = useUrlDispatch();
+
+    const { url } = urlState;
+    const fetchDataDispatch = useFetchDataDispatch();
 
     const errorCallBack = () => {
         setTimeout(() => {
@@ -36,8 +43,12 @@ const Keyword = () => {
      * @param e
      */
     const onUrlHandler = (e) => {
-        setUrl(e.currentTarget.value);
+        urlDispatch({ type: 'SET_URL', url: e.currentTarget.value });
     };
+
+    useEffect(() => {
+        if (tableData) fetchDataDispatch({ type: 'SET_KEYWORD_DATA', keyword: tableData });
+    }, [fetchDataDispatch, tableData]);
 
     return (
         <Fragment>

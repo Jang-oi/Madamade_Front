@@ -1,8 +1,12 @@
 // MUI
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { setLocaleString } from '../utils/commonUtil';
+import { useFetchDataState } from '../contexts/fetchDataContext';
 
 const KeywordBoard = ({ tableData }) => {
+    const fetchDataState = useFetchDataState();
+    if (!tableData) tableData = fetchDataState.keyword;
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label='simple table'>

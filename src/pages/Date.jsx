@@ -1,14 +1,21 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import DateBoard from '../component/DateBoard';
 import { urlValidate } from '../utils/validateUtil';
 import { useAxios } from '../customHooks/useAxios';
 import axios from '../apis/smartBenchmark';
+import { useUrlDispatch, useUrlState } from '../contexts/urlContext';
+import { useFetchDataDispatch } from '../contexts/fetchDataContext';
 
 const Date = () => {
-    const [url, setUrl] = useState('');
     const [fetchProductObj, axiosFetch] = useAxios();
     const urlInputRef = useRef(null);
+
+    const urlState = useUrlState();
+    const urlDispatch = useUrlDispatch();
+
+    const { url } = urlState;
+    const fetchDataDispatch = useFetchDataDispatch();
 
     const errorCallBack = () => {
         setTimeout(() => {
@@ -35,8 +42,13 @@ const Date = () => {
      * @param e
      */
     const onUrlHandler = (e) => {
-        setUrl(e.currentTarget.value);
+        urlDispatch({ type: 'SET_URL', url: e.currentTarget.value });
     };
+
+    useEffect(() => {
+        if (fetchProductObj) fetchDataDispatch({ type: 'SET_DATE_DATA', date: fetchProductObj });
+    }, [fetchDataDispatch, fetchProductObj]);
+
 
     return (
         <Fragment>
