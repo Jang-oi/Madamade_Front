@@ -57,7 +57,7 @@ const Submit = ({ pageUrl, menuName }) => {
             url          : axiosUrl,
             requestConfig: { url },
         }).then(res => {
-            fetchDataDispatch({ type, [pageUrl]: res });
+            if (res.data) fetchDataDispatch({ type, [pageUrl]: res });
         });
     };
 
