@@ -8,17 +8,18 @@ import {
 import { isEmptyObj, setLocaleString } from '../utils/commonUtil';
 import { useFetchDataState } from '../contexts/fetchDataContext';
 
-const DateBoard = ({ fetchProductObj }) => {
+const DateBoard = () => {
 
     const [thumbnailImage, setThumbnailImage] = useState('');
     const [productObj, setProductObj] = useState({});
     const fetchDataState = useFetchDataState();
+    const fetchProductObj = fetchDataState.date;
+
     useEffect(() => {
         setProductObj(fetchProductObj);
         setThumbnailImage(fetchProductObj?.thumbnail);
     }, [fetchProductObj]);
 
-    if (!fetchProductObj) fetchProductObj = fetchDataState.date;
     if (isEmptyObj(productObj)) return;
 
     setLocaleString(productObj.reviewAmount);

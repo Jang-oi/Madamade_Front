@@ -3,9 +3,9 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { setLocaleString } from '../utils/commonUtil';
 import { useFetchDataState } from '../contexts/fetchDataContext';
 
-const KeywordBoard = ({ tableData }) => {
+const KeywordBoard = () => {
     const fetchDataState = useFetchDataState();
-    if (!tableData) tableData = fetchDataState.keyword;
+    const tableData = fetchDataState.keyword;
 
     return (
         <TableContainer component={Paper}>

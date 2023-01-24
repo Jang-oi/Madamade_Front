@@ -26,9 +26,13 @@ export const useAxios = () => {
                 case -1 :
                     customAlert({ text: returnMessage, isError: true });
                     break;
+                case -2 :
+                    customAlert({ text: returnMessage, isError: true });
+                    break;
                 default:
                     break;
             }
+            return returnData;
         } catch (err) {
             customAlert({ text: getErrorMessage(err), isError: true });
         } finally {
@@ -36,5 +40,5 @@ export const useAxios = () => {
         }
     };
 
-    return [response, axiosFetch];
+    return [axiosFetch, response];
 };
