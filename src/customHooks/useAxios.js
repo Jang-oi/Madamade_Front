@@ -40,5 +40,5 @@ export const useAxios = () => {
         }
     };
 
-    return [axiosFetch, response];
+    return { axiosFetch, response };
 };

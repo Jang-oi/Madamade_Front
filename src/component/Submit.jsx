@@ -9,7 +9,7 @@ import { useFetchDataDispatch } from '../contexts/fetchDataContext';
 const Submit = ({ pageUrl, menuName }) => {
 
     const urlInputRef = useRef(null);
-    const [axiosFetch] = useAxios();
+    const { axiosFetch } = useAxios();
 
     const urlState = useUrlState();
     const urlDispatch = useUrlDispatch();
