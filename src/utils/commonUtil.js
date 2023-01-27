@@ -27,7 +27,7 @@ export const sweetAlert = (options) => {
  *
  * @param options
  *  {
- *      returnMessage : alert 화면에 보일 메세지
+ *      text          : alert 화면에 보일 메세지
  *      isError       : error 여부
  *      timer         : alert 시간
  *  }

@@ -6,7 +6,7 @@ import { Container } from '@mui/material';
 import Loading from './component/Loding';
 import Review from './pages/Review';
 import Menubar from './component/Menubar';
-import Main from './component/Main';
+import Main from './pages/Main';
 import Keyword from './pages/Keyword';
 import Date from './pages/Date';
 import { useLoadingState } from './contexts/loadingContext';
